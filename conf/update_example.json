@@ -16,7 +16,7 @@
 		}],
 		"new_chat_photo": [],
 		"chat": {
-			"id": 5467706121,
+			"id": "123",
 			"type": "private",
 			"first_name": "wang",
 			"last_name": "lao"
@@ -25,10 +25,10 @@
 		"from": {
 			"is_bot": "False",
 			"language_code": "zh-hans",
-			"id": 5467706121,
-			"last_name": "lao",
-			"first_name": "wang"
+			"id": "123",
+			"last_name": "",
+			"first_name": ""
 		}
 	},
-	"update_id": 343121124
+	"update_id": 123
 }
