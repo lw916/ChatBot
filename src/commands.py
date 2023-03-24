@@ -1,5 +1,4 @@
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler
 import configparser
 from db.db import redis_connect
 import logging
@@ -79,7 +78,8 @@ def help_command(update, context):
     Like provide some command example for user.
     """
     try:
-        update.message.reply_text('Hello' + context.args[0] + 'This is a helping message.')
+        update.message.reply_text('Hello! ' + update.effective_chat["last_name"] + ' ' +
+                                  update.effective_chat["first_name"] + '. This is a helping message.')
     except (IndexError, ValueError):
         update.message.reply_text('Oh right, your command might be wrong. This command usage is: /help')
 
