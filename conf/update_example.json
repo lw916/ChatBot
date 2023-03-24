@@ -1,0 +1,34 @@
+{
+	"message": {
+		"message_id": 27,
+		"new_chat_members": [],
+		"group_chat_created": "False",
+		"photo": [],
+		"supergroup_chat_created": "False",
+		"date": 1679668523,
+		"text": "/start",
+		"channel_chat_created": "False",
+		"delete_chat_photo": "False",
+		"entities": [{
+			"offset": 0,
+			"length": 6,
+			"type": "bot_command"
+		}],
+		"new_chat_photo": [],
+		"chat": {
+			"id": 5467706121,
+			"type": "private",
+			"first_name": "wang",
+			"last_name": "lao"
+		},
+		"caption_entities": [],
+		"from": {
+			"is_bot": "False",
+			"language_code": "zh-hans",
+			"id": 5467706121,
+			"last_name": "lao",
+			"first_name": "wang"
+		}
+	},
+	"update_id": 343121124
+}
