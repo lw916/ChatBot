@@ -3,7 +3,6 @@ import configparser
 from db.db import redis_connect
 import requests
 import logging
-import redis
 
 global redis_connection
 global config_content
@@ -92,8 +91,8 @@ def start(update, context):
     """
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="Hi! " + update.effective_chat["last_name"] + ' ' + update.effective_chat[
-                                     "first_name"] + ',\n'
+                                 text="Hi! " + update.effective_chat["last_name"] + ' ' + update.effective_chat["first_name"]
+                                      + ',\n'
                                       + 'I am telegram bot provide movie recommending and sharing for you.\n'
                                       + 'Hope you could get your best result here!\n'
                                       + 'Please use the bot command to chat with me!'

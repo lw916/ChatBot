@@ -7,12 +7,19 @@ This is a normal telegram chatbot using python as backend.
 - Database: Redis
 - Cloud platform: unknown
 
-## Project development Process
+## How to start this program?
+```shell
+- cd /Chatbot
+- python pip install requirements
+- python /bin/start.py
+```
+
+## How to use docker to develop this program?
 ```dockerfile
 docker-compose -f setup.yaml up -d
 ```
 
-## Common Question
+## Q&A
 ```
 To Be Continued
 ```
