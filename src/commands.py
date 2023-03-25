@@ -146,7 +146,7 @@ def add(update, context):
         redis_connection.incr(msg)
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='You have said ' + msg + ' for ' +
-                                      redis_connection.get(msg).decode('UTF-8') + ' times.')
+                                      redis_connection.get(msg) + ' times.')
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage: /add <keyword>')
