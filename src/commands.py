@@ -64,8 +64,10 @@ def start(update, context):
                     [InlineKeyboardButton('Bot help', callback_data='help')],
                     [InlineKeyboardButton('Push message', callback_data='push')]]
         start_menu_keyboard = InlineKeyboardMarkup(keyboard)
+        # get people user from update
         userName = update.effective_chat["last_name"] + update.effective_chat["first_name"]
         user_storing(redis_connection, userName, update.effective_chat["id"])
+        # inject main menu to start command
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  reply_markup=start_menu_keyboard,
                                  text="Hi! " + userName
@@ -73,7 +75,6 @@ def start(update, context):
                                       + 'I am telegram bot provide movie recommending and sharing for you.\n'
                                       + 'Hope you could get your best result here!\n'
                                       + 'Please use the bot command to chat with me!',
-
                                  )
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
@@ -133,7 +134,8 @@ def help_command(update, context):
 
 # Help part end
 
-
+# test database part
+# @TODO This part must be removed in the future
 # Database calculate
 def add(update, context):
     """
