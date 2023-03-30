@@ -1,12 +1,12 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, Filters
-import configparser
 from db.db import redis_connect, user_storing, fuzzy_query
+import os
 import requests
 import logging
-
+# import configparser
 global redis_connection
-global config_content
+# global config_content
 
 SEARCH = range(2)
 
@@ -18,17 +18,17 @@ def bot():
     This is the main function for this backend telegram bot.
     """
 
-    # read the config file
-    global config_content
-    config_content = configparser.ConfigParser()  # import ConfigParser to read the config file
-    config_content.read(r"../conf/config.ini")  # read config file from config.ini
+    # # read the config file
+    # global config_content
+    # config_content = configparser.ConfigParser()  # import ConfigParser to read the config file
+    # config_content.read(r"../conf/config.ini")  # read config file from config.ini
 
     # connect redis database
     global redis_connection
     redis_connection = redis_connect()
 
     # set the telegram bot token
-    updater = Updater(token=(config_content['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
+    updater = Updater(token=(os.environ['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
 
     # setup for logging on the terminal
@@ -219,7 +219,7 @@ def send(user_ID, message):
 
     try:
         requests.get("https://api.telegram.org/bot"
-                     + str(config_content['TELEGRAM']['ACCESS_TOKEN'])
+                     + str(os.environ['ACCESS_TOKEN'])
                      + "/sendMessage?chat_id="
                      + str(user_ID)
                      + "&text="
