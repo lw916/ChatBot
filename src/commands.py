@@ -139,7 +139,8 @@ def help_command(update, context):
 # Database calculate
 def add(update, context):
     """
-    THis command is provided to test redis services
+    This command is provided to test redis services
+    Test function
     """
     try:
         msg = context.args[0]
