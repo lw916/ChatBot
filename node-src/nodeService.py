@@ -49,7 +49,7 @@ def down():
             return 'Oops, server is very busy right now, maybe you can access again later?'
 
 
-@app.route('/comment', methods=['GET'])  # generate random comment for a movie
+@app.route('/review', methods=['GET'])  # generate random comment for a movie
 def comment():
     try:
         # unpack request
