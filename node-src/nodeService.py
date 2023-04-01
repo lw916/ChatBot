@@ -37,10 +37,19 @@ def hello():
     return "Hello world."
 
 
-@app.route('/down')
-def down():
-    for i in range(max_retry):
-        result, error = requestGPT(prompt.down_prompt)
+@app.route('/emotion', methods=['GET'])
+def emotion():
+    try:
+        # unpack request
+        emotion = request.args.get('mood')  # missing validation, more safety to add a validated
+        log.info('/emotion Param keys: ' + str(request.args.keys()))
+    except Exception as e:
+        log.error('/emotion error \n Err: ' + str(e))
+        log.warning('/emotion doesn\'t receive any params.')
+        return 'Oops, wrong request params'
+
+    for i in range(max_retry):  # retry mechanism
+        result, error = requestGPT(prompt.emotion(emotion))
 
         if result is not None and result != '':
             return result
@@ -61,7 +70,7 @@ def comment():
         return 'Oops, wrong request params'
 
     log.info('/comment request recv, Movie: ' + movie_name)  # log module
-    result, error = requestGPT(prompt.down_prompt)
+    result, error = requestGPT(prompt.recommend(movie_name))
 
     if error is not None:
         return 'Oops, server have some little problem, can you retry it a bit later?'
@@ -79,10 +88,7 @@ def recommend():
         log.info('/recommend Request may have no params')
         mood = None
 
-    if mood == '' or mood is None:
-        result, error = requestGPT(prompt.recommend_prompt)
-    else:
-        result, error = requestGPT(prompt.recommend_prompt(mood))
+    result, error = requestGPT(prompt.recommend(mood))
 
     if error is not None:
         return 'Oops, server have some little problem, can you retry it a bit later?'
