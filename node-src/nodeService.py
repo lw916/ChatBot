@@ -54,9 +54,10 @@ def comment():
     try:
         # unpack request
         movie_name = request.args.get('movie')
+        log.info('/review Param keys: ' + str(request.args.keys()))
     except Exception as e:
-        log.error('/comment error \n Err: ' + str(e))
-        log.warning('/comment doesn\'t receive any params.')
+        log.error('/review error \n Err: ' + str(e))
+        log.warning('/review doesn\'t receive any params.')
         return 'Oops, wrong request params'
 
     log.info('/comment request recv, Movie: ' + movie_name)  # log module
@@ -72,11 +73,10 @@ def comment():
 def recommend():
     try:
         mood = request.args.get('mood')
-        log.info('Param keys: ' + str(request.args.keys()))
+        log.info('/recommend Param keys: ' + str(request.args.keys()))
     except RuntimeError as e:
         log.error(e)
-        log.info('Request may have no params')
-        log.info('Param keys: ' + str(request.args.keys()))
+        log.info('/recommend Request may have no params')
         mood = None
 
     if mood == '' or mood is None:
