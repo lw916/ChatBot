@@ -54,27 +54,30 @@ def comment():
     try:
         # unpack request
         movie_name = request.args.get('movie')
-
-        if movie_name == '' or movie_name is None:
-            log.warning('/comment doesn\'t receive any params.')
-            abort(400)  # reject, args error
-            return
-
-        log.info('/comment request recv, Movie: ' + movie_name)  # log module
-        result, error = requestGPT(prompt.down_prompt)
-
-        if error is not None:
-            return 'Oops, server have some little problem, can you retry it a bit later?'
-
-        return result
     except Exception as e:
         log.error('/comment error \n Err: ' + str(e))
+        log.warning('/comment doesn\'t receive any params.')
         return 'Oops, wrong request params'
 
+    log.info('/comment request recv, Movie: ' + movie_name)  # log module
+    result, error = requestGPT(prompt.down_prompt)
 
-@app.route('/recommend')
+    if error is not None:
+        return 'Oops, server have some little problem, can you retry it a bit later?'
+
+    return result
+
+
+@app.route('/recommend', methods=['GET'])
 def recommend():
-    mood = request.args.get('mood')
+    try:
+        mood = request.args.get('mood')
+        log.info('Param keys: ' + str(request.args.keys()))
+    except RuntimeError as e:
+        log.error(e)
+        log.info('Request may have no params')
+        log.info('Param keys: ' + str(request.args.keys()))
+        mood = None
 
     if mood == '' or mood is None:
         result, error = requestGPT(prompt.recommend_prompt)

@@ -8,11 +8,17 @@ class Prompt:
     recommend_prompt = str('I\'m {} now, randomly recommend me two movies, without any external content, only the '
                            'movie name, and perform as one single python list.')
 
+    recommend_prompt_none = str('Randomly recommend me two movies, without any external content, only the '
+                                'movie name, and perform as one single python list.')
+
     def comment(self, movie_name: str):
         return self.movie_comment.format(movie_name)
 
     def down(self):
         return self.down_prompt
 
-    def recommend(self, mood='sad'):
+    def recommend(self, mood):
+        if mood is None:
+            return self.recommend_prompt_none
+
         return self.recommend_prompt.format(str(mood))
