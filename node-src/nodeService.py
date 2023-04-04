@@ -40,14 +40,14 @@ def hello():
 
 @app.route('/emotion', methods=['GET'])
 def emotion():
-    try:
-        # unpack request
-        emotion = request.args.get('mood')  # missing validation, more safety to add a validated
-        log.info('/emotion Param keys: ' + str(request.args.keys()))
-    except Exception as e:
-        log.error('/emotion error \n Err: ' + str(e))
+    # unpack request
+    emotion = request.args.get('mood')  # missing validation, more safety to add a validated
+
+    if emotion is None:
         log.warning('/emotion doesn\'t receive any params.')
         return 'Oops, wrong request params'
+
+    log.info('/emotion Param keys: ' + str(request.args.keys()))
 
     for i in range(max_retry):  # retry mechanism
         result, error = requestGPT(prompt.emotion(emotion))
@@ -61,14 +61,13 @@ def emotion():
 
 @app.route('/review', methods=['GET'])  # generate random comment for a movie
 def comment():
-    try:
-        # unpack request
-        movie_name = request.args.get('movie')
-        log.info('/review Param keys: ' + str(request.args.keys()))
-    except Exception as e:
-        log.error('/review error \n Err: ' + str(e))
+    movie_name = request.args.get('movie')
+
+    if movie_name is None:
         log.warning('/review doesn\'t receive any params.')
         return 'Oops, wrong request params'
+
+    log.info('/review Param keys: ' + str(request.args.keys()))
 
     log.info('/comment request recv, Movie: ' + movie_name)  # log module
     result, error = requestGPT(prompt.recommend(movie_name))
@@ -81,13 +80,12 @@ def comment():
 
 @app.route('/recommend', methods=['GET'])
 def recommend():
-    try:
-        mood = request.args.get('mood')
-        log.info('/recommend Param keys: ' + str(request.args.keys()))
-    except RuntimeError as e:
-        log.error(e)
+    mood = request.args.get('mood')
+
+    if mood is None:
         log.info('/recommend Request may have no params')
-        mood = None
+
+    log.info('/recommend Param keys: ' + str(request.args.keys()))
 
     result, error = requestGPT(prompt.recommend(mood))
 
