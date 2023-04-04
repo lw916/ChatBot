@@ -42,3 +42,20 @@ def fuzzy_query(redis_connection, query):
         return keys
     except (IndexError, ValueError):
         return []
+
+
+# get user id by username
+def get_userid(redis_connection, userName):
+    """
+    This is the function for return the userID with username.
+    UserName have record, return the userID.
+    UserName don't have record or fail to get, return None.
+    """
+    try:
+        userID = redis_connection.get(userName)
+        if userID:
+            return userID
+        else:
+            return None
+    except (IndexError, ValueError):
+        return None
