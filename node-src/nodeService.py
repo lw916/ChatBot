@@ -72,7 +72,7 @@ def comment():
     log.info('/review Recv params: ' + movie_name)
 
     log.info('/comment request recv, Movie: ' + movie_name)  # log module
-    result, error = requestGPT(prompt.recommend(movie_name))
+    result, error = requestGPT(prompt.comment(movie_name))
 
     if error is not None:
         return 'Oops, server have some little problem, can you retry it a bit later?'
