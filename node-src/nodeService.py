@@ -21,7 +21,7 @@ def requestGPT(prompt: str) -> (str, Exception):
         'Authorization': 'Bearer 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',
         'Content-Type': 'application/json'
     }
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", url, headers=headers, data=payload, verify=False, timeout=(1.0, 6.0))
 
     try:
         log.info('Success on request openai')
@@ -51,11 +51,11 @@ def emotion():
     for i in range(max_retry):  # retry mechanism
         result, error = requestGPT(prompt.emotion(emotion))
 
-        if result is not None and result != '':
-            return result
-
         if error is not None:
             return 'Oops, server is very busy right now, maybe you can access again later?'
+
+        if result is not None and result != '':
+            return result
 
 
 @app.route('/review', methods=['GET'])  # generate random comment for a movie
