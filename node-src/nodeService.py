@@ -48,6 +48,7 @@ def emotion():
         return 'Oops, wrong request params'
 
     log.info('/emotion Param keys: ' + str(request.args.keys()))
+    log.info('/emotion Recv params: ' + emotion)
 
     for i in range(max_retry):  # retry mechanism
         result, error = requestGPT(prompt.emotion(emotion))
@@ -68,6 +69,7 @@ def comment():
         return 'Oops, wrong request params'
 
     log.info('/review Param keys: ' + str(request.args.keys()))
+    log.info('/review Recv params: ' + movie_name)
 
     log.info('/comment request recv, Movie: ' + movie_name)  # log module
     result, error = requestGPT(prompt.recommend(movie_name))
@@ -86,6 +88,7 @@ def recommend():
         log.info('/recommend Request may have no params')
 
     log.info('/recommend Param keys: ' + str(request.args.keys()))
+    log.info('/recommend Recv params: ' + mood)
 
     result, error = requestGPT(prompt.recommend(mood))
 
