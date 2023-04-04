@@ -26,6 +26,7 @@ def requestGPT(prompt: str) -> (str, Exception):
     try:
         log.info('Success on request openai')
         log.info(prompt)
+        log.info(response.json())
         return str(response.json()['choices'][0]['text']), None
     except Exception as e:
         log.error(e)
