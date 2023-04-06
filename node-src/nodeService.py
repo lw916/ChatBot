@@ -1,14 +1,23 @@
-from flask import Flask, request, abort
+from flask import Flask, request
 from gpt import Prompt
 from log import log
 import requests
 import json
+import os
 
 app = Flask(__name__)
 
-url = "https://api.openai.com/v1/completions"  # openai API
+url = "https://api.openai.com/v1/completions"  # openai API prefix
+API_KEY = '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'  # API key
 prompt = Prompt()  # single entity mode
-max_retry = 3
+max_retry = 3  # max retry times
+
+
+def environCheck() -> None:
+    global API_KEY
+    env = os.environ['BEARER_TOKEN']
+
+    API_KEY = env if env is not None else API_KEY
 
 
 def requestGPT(prompt: str) -> (str, Exception):
@@ -18,7 +27,7 @@ def requestGPT(prompt: str) -> (str, Exception):
         "max_tokens": 2048
     })
     headers = {
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer ' + API_KEY,
         'Content-Type': 'application/json'
     }
     response = requests.request("POST", url, headers=headers, data=payload, verify=False, timeout=(1.0, 6.0))
@@ -100,4 +109,5 @@ def recommend():
 
 
 if __name__ == '__main__':
+    environCheck()
     app.run(host='0.0.0.0', port=4000)

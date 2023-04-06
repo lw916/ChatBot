@@ -1,5 +1,4 @@
 FROM python
-RUN mkdir /bot
 WORKDIR /bot
 COPY ./ /bot/
 RUN pip install --upgrade pip \

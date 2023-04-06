@@ -1,10 +1,11 @@
 FROM python:3.11.2
 MAINTAINER cppfred<22443584@life.hkbu.edu.hk>
-# mkdir
-CMD mkdir /bot
+
+# SET DIRECTORY
+WORKDIR /bot/node-src/
 
 # copy file to image
-COPY ./ /bot/
+COPY ./ /bot/node-src/
 
 # run pip install command when building image
 RUN pip3 install pip update \
