@@ -13,6 +13,15 @@ This is a normal telegram chatbot using python as backend.
 - python pip install requirements
 - python /bin/start.py
 ```
+OR
+```shell
+sh up.sh && sh ./node-src/up.sh
+```
+
+## How to stop this program?
+```shell
+sh down.sh && sh ./node-src/down.sh
+```
 
 ## How to use docker to develop this program?
 ```dockerfile
