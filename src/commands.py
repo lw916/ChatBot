@@ -557,6 +557,7 @@ conv_handler = ConversationHandler(
     states={
         RECIPIENT: [MessageHandler(Filters.text & ~Filters.command, recipient)],
         MESSAGE: [MessageHandler(Filters.text & ~Filters.command, message)],
+        NO: [MessageHandler(Filters.text & ~Filters.command, message)]
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
