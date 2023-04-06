@@ -8,12 +8,15 @@ WORKDIR /bot/node-src/
 COPY ./ /bot/node-src/
 
 # run pip install command when building image
-RUN pip install pip update \
+# when using apt install something need to mannully
+RUN apt update -y \
+  && apt install -y python3-pip \
+  && pip install pip update \
   && pip install --upgrade pip \
-  && pip install -r /bot/requirements.txt
+  && pip install -r /bot/node-src/requirements.txt
 
 # set system enviroument
 ENV BEARER_TOKEN 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
 
 # set automatic command
-CMD python3 /bot/nodeService.py
+CMD python3 /bot/node-src/nodeService.py

@@ -1,6 +1,7 @@
 from flask import Flask, request
 from gpt import Prompt
 from log import log
+from gevent import pywsgi
 import requests
 import json
 import os
@@ -111,4 +112,9 @@ def recommend():
 
 if __name__ == '__main__':
     environCheck()
-    app.run(host='0.0.0.0', port=4000)
+    # dev mode
+    # app.run(host='0.0.0.0', port=4000)
+
+    # production mode
+    server = pywsgi.WSGIServer(('0.0.0.0', 4000), app)
+    server.serve_forever()
