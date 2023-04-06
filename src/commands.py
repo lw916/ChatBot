@@ -278,7 +278,7 @@ def down1(update, context):
     This code is used to play the function when user is feeling down
     """
     mood = "sad"
-    url = "http://127.0.0.1:4000/emotion?mood=" + mood
+    url = "http://127.0.0.1/emotion?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -304,7 +304,7 @@ def calm2(update, context):
     This code is used to play the function when user is feeling calm
     """
     mood = "calm"
-    url = "http://127.0.0.1:4000/emotion?mood=" + mood
+    url = "http://127.0.0.1/emotion?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -330,7 +330,7 @@ def happy3(update, context):
     This code is used to play the function when user is feeling happy
     """
     mood = "happy"
-    url = "http://127.0.0.1:4000/recommend?mood=" + mood
+    url = "http://127.0.0.1/recommend?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -350,7 +350,7 @@ def exciting4(update, context):
     This code is used to play the function when user is feeling exciting
     """
     mood = "exciting"
-    url = "http://127.0.0.1:4000/recommend?mood=" + mood
+    url = "http://127.0.0.1/recommend?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -370,7 +370,7 @@ def romance5(update, context):
     This code is used to play the function when user is feeling romance
     """
     mood = "romance"
-    url = "http://127.0.0.1:4000/recommend?mood=" + mood
+    url = "http://127.0.0.1/recommend?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -390,7 +390,7 @@ def yes1(update, context):
     This code is used to play the function when user is feeling down (1 star mood) and want movie recommendations
     """
     mood = "down"
-    url = "http://127.0.0.1:4000/recommend?mood=" + mood
+    url = "http://127.0.0.1/recommend?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -422,7 +422,7 @@ def yes2(update, context):
     This code is used to play the function when user rate his mood 2 stars
     """
     mood = "sad"
-    url = "http://127.0.0.1:4000/recommend?mood=" + mood
+    url = "http://127.0.0.1/recommend?mood=" + mood
     response = requestBackend(url)
 
     print(response)
@@ -452,7 +452,7 @@ def enterMovieName(update, context):
     movie = update.message.text
 
     # Send GET request to Flask app to get movie review
-    url = "http://127.0.0.1:4000/review?movie=" + movie
+    url = "http://127.0.0.1/review?movie=" + movie
     response = requestBackend(url)
     print(response)
 
