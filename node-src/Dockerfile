@@ -8,9 +8,9 @@ WORKDIR /bot/node-src/
 COPY ./ /bot/node-src/
 
 # run pip install command when building image
-RUN pip3 install pip update \
-  && pip3 install --upgrade pip \
-  && pip3 install -r /bot/requirements.txt
+RUN pip install pip update \
+  && pip install --upgrade pip \
+  && pip install -r /bot/requirements.txt
 
 # set system enviroument
 ENV BEARER_TOKEN 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
