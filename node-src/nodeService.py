@@ -114,14 +114,16 @@ def recommend():
 if __name__ == '__main__':
     environCheck()
 
-    if argv[0] == 'dev':
+    if argv[1] == 'dev':
         # dev mode
+        print('WARNING: RUNNING NODE SERVICE IN DEV MODE.')
         app.run(host='0.0.0.0', port=4000)
-    elif argv[0] == 'help':
-        print("Only one param accepted:"
-              "dev: development mode."
-              "help: show this help prompt."
-              "DEFAULT = production mode")
+    elif argv[1] == 'help':
+        print("Only one param accepted: \n"
+              "dev: development mode. \n"
+              "help: show this help prompt. \n"
+              "DEFAULT = production mode \n"
+              "Example: python nodeService.py dev/help")
     else:
         # production mode
         server = pywsgi.WSGIServer(('0.0.0.0', 4000), app)
