@@ -8,16 +8,17 @@ import os
 app = Flask(__name__)
 
 url = "https://api.openai.com/v1/completions"  # openai API prefix
-API_KEY = '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'  # API key
+API_KEY = ''  # API key
 prompt = Prompt()  # single entity mode
 max_retry = 3  # max retry times
 
 
 def environCheck() -> None:
     global API_KEY
-    env = os.environ['BEARER_TOKEN']
-
-    API_KEY = env if env is not None else API_KEY
+    try:
+        API_KEY = os.environ['BEARER_TOKEN']
+    except KeyError:
+        API_KEY = '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'
 
 
 def requestGPT(prompt: str) -> (str, Exception):
