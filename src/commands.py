@@ -8,7 +8,7 @@ import logging
 global redis_connection
 
 SEARCH = range(2)
-RECIPIENT, MESSAGE, NO = range(2)
+RECIPIENT, MESSAGE, NO = range(3)
 ENTER_MOVIE_NAME = 0
 
 
