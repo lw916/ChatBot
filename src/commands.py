@@ -1,8 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, Filters
-import configparser
 import os
-from flask import Flask, request, abort
 from db.db import redis_connect, user_storing, fuzzy_query, get_userid
 import requests
 import logging
@@ -23,9 +21,9 @@ def bot():
     """
 
     # read the config file
-    #global config_content
-    #config_content = configparser.ConfigParser()  # import ConfigParser to read the config file
-    #config_content.read(r"../conf/config.ini")  # read config file from config.ini
+    # global config_content
+    # config_content = configparser.ConfigParser()  # import ConfigParser to read the config file
+    # config_content.read(r"../conf/config.ini")  # read config file from config.ini
 
     # connect redis database
     global redis_connection
@@ -38,38 +36,39 @@ def bot():
     # setup for logging on the terminal
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-
     # add different command into the telegram bot
     dispatcher.add_handler(CommandHandler("start", start))  # inject start command
     dispatcher.add_handler(CallbackQueryHandler(start_menu_actions))  # inject start menu function handler
     dispatcher.add_handler(search_conversation_handler)  # inject search conversation handler
-    updater.dispatcher.add_handler(conv_handler) #inject conversation handler for push
-    updater.dispatcher.add_handler(review_conv_handler) # inject conversation handler for movieReview()
+    updater.dispatcher.add_handler(conv_handler)  # inject conversation handler for push
+    updater.dispatcher.add_handler(review_conv_handler)  # inject conversation handler for movieReview()
     dispatcher.add_handler(CommandHandler("help", help_command))  # inject help command
     dispatcher.add_handler(CommandHandler("hello", hello))  # inject greet command
     dispatcher.add_handler(CommandHandler("push", push))  # inject push message to others command
-    dispatcher.add_handler(CommandHandler("down1", down1)) #inject down command from mood selection
-    dispatcher.add_handler(CommandHandler("calm2", calm2)) #inject calm command from mood selection
-    dispatcher.add_handler(CommandHandler("happy3", happy3)) #inject happy command from mood selection
-    dispatcher.add_handler(CommandHandler("exciting4", exciting4)) #inject exciting command from mood selection
-    dispatcher.add_handler(CommandHandler("romance5", romance5)) #inject romance command from mood selection
-    dispatcher.add_handler(CommandHandler("yes1", yes1)) #inject yes command for movie recommendation on down function
-    dispatcher.add_handler(CommandHandler("no", no)) #inject no command for movie recommendation from down function
-    dispatcher.add_handler(CommandHandler("yes2", yes2)) #inject yes command for movie recommendation on calm function
-    dispatcher.add_handler(CommandHandler("yesReview", yesReview)) #inject yes command for movie reviews
-    dispatcher.add_handler(CommandHandler("enterMovieName", enterMovieName)) # command under movieReview conversation handler
-    dispatcher.add_handler(CommandHandler("recipient", recipient)) # command under push conversation handler
-    dispatcher.add_handler(CommandHandler("message", message)) # command under push conversation handler
-    dispatcher.add_handler(CommandHandler("send", send)) # command under push conversation handler
-    
+    dispatcher.add_handler(CommandHandler("down1", down1))  # inject down command from mood selection
+    dispatcher.add_handler(CommandHandler("calm2", calm2))  # inject calm command from mood selection
+    dispatcher.add_handler(CommandHandler("happy3", happy3))  # inject happy command from mood selection
+    dispatcher.add_handler(CommandHandler("exciting4", exciting4))  # inject exciting command from mood selection
+    dispatcher.add_handler(CommandHandler("romance5", romance5))  # inject romance command from mood selection
+    dispatcher.add_handler(CommandHandler("yes1", yes1))  # inject yes command for movie recommendation on down function
+    dispatcher.add_handler(CommandHandler("no", no))  # inject no command for movie recommendation from down function
+    dispatcher.add_handler(CommandHandler("yes2", yes2))  # inject yes command for movie recommendation on calm function
+    dispatcher.add_handler(CommandHandler("yesReview", yesReview))  # inject yes command for movie reviews
+    dispatcher.add_handler(
+        CommandHandler("enterMovieName", enterMovieName))  # command under movieReview conversation handler
+    dispatcher.add_handler(CommandHandler("recipient", recipient))  # command under push conversation handler
+    dispatcher.add_handler(CommandHandler("message", message))  # command under push conversation handler
+    dispatcher.add_handler(CommandHandler("send", send))  # command under push conversation handler
+
     # @TODO database function will be remove in the future
     dispatcher.add_handler(CommandHandler("add", add))  # inject database testing command
     dispatcher.add_handler(CommandHandler("search", search_user))  # inject search user command
 
-
     # Start the telegram bot
     updater.start_polling()
     updater.idle()
+
+
 # main function part end
 
 
@@ -154,24 +153,25 @@ def hello(update, context):
     Good day, user and provide mood selection.
     """
     try:
-        #keyboard to provide mood selection
+        # keyboard to provide mood selection
         Mkeyboard = [[InlineKeyboardButton('⭐️', callback_data='down1')],
-                    [InlineKeyboardButton('⭐️⭐️', callback_data='calm2')],
-                    [InlineKeyboardButton('⭐️⭐️⭐️', callback_data='happy3')],
-                    [InlineKeyboardButton('⭐️⭐️⭐️⭐️', callback_data='exciting4')],
-                    [InlineKeyboardButton('⭐️⭐️⭐️⭐️⭐️', callback_data='romance5')]]
+                     [InlineKeyboardButton('⭐️⭐️', callback_data='calm2')],
+                     [InlineKeyboardButton('⭐️⭐️⭐️', callback_data='happy3')],
+                     [InlineKeyboardButton('⭐️⭐️⭐️⭐️', callback_data='exciting4')],
+                     [InlineKeyboardButton('⭐️⭐️⭐️⭐️⭐️', callback_data='romance5')]]
         mood_menu_keyboard = InlineKeyboardMarkup(Mkeyboard)
 
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  reply_markup=mood_menu_keyboard,
-                                 text="Good day, How are you feeling today " + update.effective_chat["last_name"] + ' ' +
+                                 text="Good day, How are you feeling today " + update.effective_chat[
+                                     "last_name"] + ' ' +
                                       update.effective_chat["first_name"] + "? Please rate your feeling below")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Oh right, your command might be wrong. This command usage is: /down1, /calm2, /happy3, /exciting4 or /romance5')
+                                 text='Oh right, your command might be wrong. This command usage is: /down1, /calm2, '
+                                      '/happy3, /exciting4 or /romance5')
 
-
-# greet part end
+    # greet part end
 
 
 # Help command
@@ -271,7 +271,7 @@ search_conversation_handler = ConversationHandler(
 # example: https://api.telegram.org/bot6[botID]/sendMessage?chat_id=[userID]&text=[text message]
 # push data to others part end
 
-#mood functions
+# mood functions
 
 def down1(update, context):
     """
@@ -284,19 +284,21 @@ def down1(update, context):
     print(response)
 
     try:
-        #keyboard to ask if user want movie recommendation
+        # keyboard to ask if user want movie recommendation
         downkeyboard = [[InlineKeyboardButton('Yes', callback_data='yes1')],
-                        [InlineKeyboardButton('No', callback_data='no')]] 
+                        [InlineKeyboardButton('No', callback_data='no')]]
         down_menu_keyboard = InlineKeyboardMarkup(downkeyboard)
-        
+
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  reply_markup=down_menu_keyboard,
-                                 text="Hi " + update.effective_chat["last_name"] + ' ' + update.effective_chat["first_name"] + 
-                                response + "\n" + "\n Would you also like some movie recommendations from us to cheer up?")
+                                 text="Hi " + update.effective_chat["last_name"] + ' ' + update.effective_chat[
+                                     "first_name"] +
+                                      response + "\n" + "\n Would you also like some movie recommendations from us to cheer up?")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /down1')
-        
+
+
 def calm2(update, context):
     """
     This code is used to play the function when user is feeling calm
@@ -308,19 +310,21 @@ def calm2(update, context):
     print(response)
 
     try:
-        #keyboard to ask if user want movie recommendation
+        # keyboard to ask if user want movie recommendation
         calmkeyboard = [[InlineKeyboardButton('Yes', callback_data='yes2')],
                         [InlineKeyboardButton('No', callback_data='no')]]
         calm_menu_keyboard = InlineKeyboardMarkup(calmkeyboard)
 
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  reply_markup=calm_menu_keyboard,
-                                 text="Hi " + update.effective_chat["last_name"] + ' ' + update.effective_chat["first_name"] + 
-                                 response + "\n" + "\n Would you also like some movie recommendations from us to cheer up?")
+                                 text="Hi " + update.effective_chat["last_name"] + ' ' + update.effective_chat[
+                                     "first_name"] +
+                                      response + "\n" + "\n Would you also like some movie recommendations from us to cheer up?")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /calm2')
-        
+
+
 def happy3(update, context):
     """
     This code is used to play the function when user is feeling happy
@@ -333,12 +337,13 @@ def happy3(update, context):
 
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="These are the movie recommendations based on your current mood" + response 
-                                    + "\n"*2 + "Would you also like to see reviews?\n"  + "\n" + 
-                                    "Select /yesReview if you want to read review or /no to quit")
+                                 text="These are the movie recommendations based on your current mood" + response
+                                      + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
+                                      "Select /yesReview if you want to read review or /no to quit")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /happy3')
+
 
 def exciting4(update, context):
     """
@@ -352,12 +357,13 @@ def exciting4(update, context):
 
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="These are the movie recommendations based on your current mood" + response 
-                                    + "\n"*2 + "Would you also like to see reviews?\n"  + "\n" + 
-                                    "Select /yesReview if you want to read review or /no to quit")
+                                 text="These are the movie recommendations based on your current mood" + response
+                                      + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
+                                      "Select /yesReview if you want to read review or /no to quit")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /exciting4')
+
 
 def romance5(update, context):
     """
@@ -371,12 +377,13 @@ def romance5(update, context):
 
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="These are the movie recommendations based on your current mood" + response 
-                                    + "\n"*2 + "Would you also like to see reviews?\n"  + "\n" + 
-                                    "Select /yesReview if you want to read review or /no to quit")
+                                 text="These are the movie recommendations based on your current mood" + response
+                                      + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
+                                      "Select /yesReview if you want to read review or /no to quit")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /romance5')
+
 
 def yes1(update, context):
     """
@@ -390,12 +397,13 @@ def yes1(update, context):
 
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="These are the movie recommendations based on your current mood" + response 
-                                    + "\n"*2 + "Would you also like to see reviews?\n"  + "\n" + 
-                                    "Select /yesReview if you want to read review or /no to quit")
+                                 text="These are the movie recommendations based on your current mood" + response
+                                      + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
+                                      "Select /yesReview if you want to read review or /no to quit")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /yes')
+
 
 def no(update, context):
     """
@@ -408,6 +416,7 @@ def no(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /no')
 
+
 def yes2(update, context):
     """
     This code is used to play the function when user rate his mood 2 stars
@@ -416,18 +425,17 @@ def yes2(update, context):
     url = "http://127.0.0.1:4000/recommend?mood=" + mood
     response = requestBackend(url)
 
-
     print(response)
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="These are the movie recommendations based on your current mood" + response 
-                                    + "\n"*2 + "Would you also like to see reviews?\n"  + "\n" + 
-                                    "Select /yesReview if you want to read review or /no to quit")
-        
+                                 text="These are the movie recommendations based on your current mood" + response
+                                      + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
+                                      "Select /yesReview if you want to read review or /no to quit")
 
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /yes2')
+
 
 def yesReview(update, context):
     """
@@ -436,8 +444,9 @@ def yesReview(update, context):
     # Prompt user to enter a movie name
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Enter a movie name for reviews to be generated:")
-    
+
     return ENTER_MOVIE_NAME
+
 
 def enterMovieName(update, context):
     movie = update.message.text
@@ -449,16 +458,19 @@ def enterMovieName(update, context):
 
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=response + "\n" + "\n Would you also like to send a message to other user regarding the review? \n" + "\n" 
-                                 + "Select /push to send a message to your friend or /no to quit")
+                                 text=response + "\n" + "\n Would you also like to send a message to other user "
+                                                        "regarding the review? \n" + "\n "
+                                      + "Select /push to send a message to your friend or /no to quit")
         return ConversationHandler.END
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /yesReview')
 
+
 def review_cancel(update, context):
     update.message.reply_text('Search Conversation cancelled.')
     return ConversationHandler.END
+
 
 review_conv_handler = ConversationHandler(
     entry_points=[CommandHandler('yesReview', yesReview)],
@@ -467,24 +479,27 @@ review_conv_handler = ConversationHandler(
     },
     fallbacks=[CommandHandler('review_cancel', review_cancel)],
 )
-#backup - to be removed
+
+
+# backup - to be removed
 def sendmessage(update, context):
     """
     This code is used to ask if user would like to send message to other user
     """
     try:
-        #keyboard to provide Review
+        # keyboard to provide Review
         messagekeyboard = [[InlineKeyboardButton('Yes', callback_data='push')],
-                        [InlineKeyboardButton('No', callback_data='no1')]]
-        message_keyboard = InlineKeyboardMarkup(messagekeyboard) 
+                           [InlineKeyboardButton('No', callback_data='no1')]]
+        message_keyboard = InlineKeyboardMarkup(messagekeyboard)
 
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 reply_markup= message_keyboard,
+                                 reply_markup=message_keyboard,
                                  text="Would you like to send a message to other user?")
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /sendmessage')
-    
+
+
 def send(user_ID, message):
     """
     This is a function for bot to transfer message to other user who also subscribe the bot.
@@ -511,39 +526,44 @@ def push(update, context):
                              text="Please enter the username of the recipient:")
     return RECIPIENT
 
+
 def recipient(update, context):
     # Check if the recipient username is valid
     recipient_username = update.message.text
     keys = fuzzy_query(redis_connection, recipient_username)
     print(keys)
     if not keys[1]:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Username invalid or not subscribed to the bot.")
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text="Username invalid or not subscribed to the bot.")
         return ConversationHandler.END
     else:
         if recipient_username not in keys[1]:
-            context.bot.send_message(chat_id=update.effective_chat.id, 
+            context.bot.send_message(chat_id=update.effective_chat.id,
                                      text="Username not found in the database. Please try again.")
             return RECIPIENT
         user_id = get_userid(redis_connection, recipient_username)
         if user_id:
             context.user_data['recipient_user_id'] = user_id
-        context.bot.send_message(chat_id=update.effective_chat.id, 
-                                 text="Please enter the message to send to " +recipient_username+ "")
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text="Please enter the message to send to " + recipient_username + "")
         return MESSAGE
+
 
 def message(update, context):
     message_to_forward = update.message.text
     user_id = context.user_data.get('recipient_user_id', None)
     if user_id:
         send(user_id, message_to_forward)
-        context.bot.send_message(chat_id=update.effective_chat.id, text= "Message forwarded to " + user_id + ".")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Message forwarded to " + user_id + ".")
     else:
-        context.bot.send_message(chat_id=update.effective_chat.id, text= "Message is failed to sent. Please try again")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Message is failed to sent. Please try again")
     return ConversationHandler.END
+
 
 def cancel(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Cancelled.")
     return ConversationHandler.END
+
 
 conv_handler = ConversationHandler(
     entry_points=[CommandHandler('push', push)],
@@ -556,18 +576,18 @@ conv_handler = ConversationHandler(
 
 
 def requestBackend(url: str) -> str:
-    '''
+    """
     url: you need to concat the params to a url before using this function
     For example: mood=sad
         url = '127.0.0.1:4000/emotion?mood=' + mood
         OR
         url = '127.0.0.1:4000/recommend?mood=' + mood
     You should adjust the prefix url with your need.
-    '''
+    """
     payload = {}
     headers = {}
     response = requests.request('GET', url, headers=headers, data=payload)
-    
+
     # response.encoding='utf-8'
     # if text cannot show normally, use it
     return response.text
