@@ -114,10 +114,12 @@ def recommend():
 if __name__ == '__main__':
     environCheck()
 
-    if argv[0] == 'dev':
+    print(argv)
+
+    if argv[1] == 'dev':
         # dev mode
         app.run(host='0.0.0.0', port=4000)
-    elif argv[0] == 'help':
+    elif argv[1] == 'help':
         print("Only one param accepted:"
               "dev: development mode."
               "help: show this help prompt."
