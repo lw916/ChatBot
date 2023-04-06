@@ -6,7 +6,6 @@ import requests
 import logging
 
 global redis_connection
-global config_content
 
 SEARCH = range(2)
 RECIPIENT, MESSAGE = range(2)
@@ -507,7 +506,7 @@ def send(user_ID, message):
 
     try:
         requests.get("https://api.telegram.org/bot"
-                     + str(config_content['TELEGRAM']['ACCESS_TOKEN'])
+                     + str(os.environ['ACCESS_TOKEN'])
                      + "/sendMessage?chat_id="
                      + str(user_ID)
                      + "&text="
