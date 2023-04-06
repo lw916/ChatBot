@@ -266,6 +266,21 @@ search_conversation_handler = ConversationHandler(
 # search part end
 
 
+def no(update, context):
+    """
+    This code is used to play the function when user is feeling down and do not want movie recommendations
+    """
+    try:
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text="Thank you for using our chatbot, see you!")
+        return ConversationHandler.END
+    except (IndexError, ValueError):
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text='Oh right, your command might be wrong. This command usage is: /no')
+        return ConversationHandler.END
+
+
+
 # push message to other user part
 # example: https://api.telegram.org/bot6[botID]/sendMessage?chat_id=[userID]&text=[text message]
 # push data to others part end
@@ -561,20 +576,6 @@ conv_handler = ConversationHandler(
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
-
-
-def no(update, context):
-    """
-    This code is used to play the function when user is feeling down and do not want movie recommendations
-    """
-    try:
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="Thank you for using our chatbot, see you!")
-        return ConversationHandler.END
-    except (IndexError, ValueError):
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Oh right, your command might be wrong. This command usage is: /no')
-        return ConversationHandler.END
 
 
 def requestBackend(url: str) -> str:
