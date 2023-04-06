@@ -9,7 +9,7 @@ global redis_connection
 global config_content
 
 SEARCH = range(2)
-RECIPIENT, MESSAGE = range(2)
+RECIPIENT, MESSAGE, NO = range(2)
 ENTER_MOVIE_NAME = 0
 
 
@@ -405,18 +405,6 @@ def yes1(update, context):
                                  text='Oh right, your command might be wrong. This command usage is: /yes')
 
 
-def no(update, context):
-    """
-    This code is used to play the function when user is feeling down and do not want movie recommendations
-    """
-    try:
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text="Thank you for using our chatbot, see you!")
-    except (IndexError, ValueError):
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Oh right, your command might be wrong. This command usage is: /no')
-
-
 def yes2(update, context):
     """
     This code is used to play the function when user rate his mood 2 stars
@@ -554,10 +542,10 @@ def message(update, context):
     user_id = context.user_data.get('recipient_user_id', None)
     if user_id:
         send(user_id, message_to_forward)
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Message forwarded to " + user_id + ".")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Message forwarded Success!")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="Message is failed to sent. Please try again")
-    return ConversationHandler.END
+    return NO
 
 
 def cancel(update, context):
@@ -573,6 +561,20 @@ conv_handler = ConversationHandler(
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
+
+
+def no(update, context):
+    """
+    This code is used to play the function when user is feeling down and do not want movie recommendations
+    """
+    try:
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text="Thank you for using our chatbot, see you!")
+        return ConversationHandler.END
+    except (IndexError, ValueError):
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text='Oh right, your command might be wrong. This command usage is: /no')
+        return ConversationHandler.END
 
 
 def requestBackend(url: str) -> str:
