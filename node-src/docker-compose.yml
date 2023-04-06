@@ -13,6 +13,7 @@ services:
       - "80:80"
     networks:
       - node_network
+    container_name: nginx
 
   gpt-node01:
     build: .
@@ -21,6 +22,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+    container_name: gpt-node01
 
   gpt-node02:
     build: .
@@ -29,6 +31,7 @@ services:
         condition: on-failure
     networks:
       - node_network
+    container_name: gpt-node02
 
   gpt-node03:
     build: .
@@ -37,6 +40,7 @@ services:
         condition: on-failure
     networks:
       - node_network
+    container_name: gpt-node03
 
   gpt-node04:
     build: .
@@ -45,6 +49,7 @@ services:
         condition: on-failure
     networks:
       - node_network
+    container_name: gpt-node04
 
   gpt-node05:
     build: .
@@ -53,3 +58,4 @@ services:
         condition: on-failure
     networks:
       - node_network
+    container_name: gpt-node05

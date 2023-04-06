@@ -2,6 +2,7 @@ from flask import Flask, request
 from gpt import Prompt
 from log import log
 from gevent import pywsgi
+from sys import argv
 import requests
 import json
 import os
@@ -112,9 +113,16 @@ def recommend():
 
 if __name__ == '__main__':
     environCheck()
-    # dev mode
-    # app.run(host='0.0.0.0', port=4000)
 
-    # production mode
-    server = pywsgi.WSGIServer(('0.0.0.0', 4000), app)
-    server.serve_forever()
+    if argv[0] == 'dev':
+        # dev mode
+        app.run(host='0.0.0.0', port=4000)
+    elif argv[0] == 'help':
+        print("Only one param accepted:"
+              "dev: development mode."
+              "help: show this help prompt."
+              "DEFAULT = production mode")
+    else:
+        # production mode
+        server = pywsgi.WSGIServer(('0.0.0.0', 4000), app)
+        server.serve_forever()
