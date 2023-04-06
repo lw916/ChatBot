@@ -290,7 +290,7 @@ def down1(update, context):
 
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  reply_markup=down_menu_keyboard,
-                                 text="Hi " + update.effective_chat["last_name"] + ' ' + update.effective_chat[
+                                 text="Hi " + update.effective_chat["last_name"] + ',\n' + update.effective_chat[
                                      "first_name"] +
                                       response + "\n" + "\n Would you also like some movie recommendations from us to cheer up?")
     except (IndexError, ValueError):
