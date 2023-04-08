@@ -16,7 +16,7 @@ RUN apt update -y \
   && pip install -r /bot/node-src/requirements.txt
 
 # set system enviroument
-ENV BEARER_TOKEN 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
+ENV BEARER_TOKEN Please enter your chatgpt api key
 
 # set automatic command
 CMD python3 /bot/node-src/nodeService.py

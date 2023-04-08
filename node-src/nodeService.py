@@ -20,7 +20,7 @@ def environCheck() -> None:
     try:
         API_KEY = os.environ['BEARER_TOKEN']
     except KeyError:
-        API_KEY = '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'
+        API_KEY = 'Please enter your chatgpt database'
 
 
 def requestGPT(prompt: str) -> (str, Exception):
