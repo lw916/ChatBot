@@ -8,7 +8,7 @@ import logging
 global redis_connection
 
 SEARCH = range(2)
-RECIPIENT, MESSAGE, NO = range(3)
+RECIPIENT, MESSAGE = range(2)
 ENTER_MOVIE_NAME = 0
 
 
@@ -273,12 +273,9 @@ def no(update, context):
     try:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text="Thank you for using our chatbot, see you!")
-        return ConversationHandler.END
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /no')
-        return ConversationHandler.END
-
 
 
 # push message to other user part
@@ -433,7 +430,6 @@ def yes2(update, context):
                                  text="These are the movie recommendations based on your current mood" + response
                                       + "\n" * 2 + "Would you also like to see reviews?\n" + "\n" +
                                       "Select /yesReview if you want to read review or /no to quit")
-
     except (IndexError, ValueError):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Oh right, your command might be wrong. This command usage is: /yes2')
@@ -559,7 +555,7 @@ def message(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="Message forwarded Success!")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="Message is failed to sent. Please try again")
-    return NO
+    return ConversationHandler.END
 
 
 def cancel(update, context):
@@ -572,7 +568,6 @@ conv_handler = ConversationHandler(
     states={
         RECIPIENT: [MessageHandler(Filters.text & ~Filters.command, recipient)],
         MESSAGE: [MessageHandler(Filters.text & ~Filters.command, message)],
-        NO: [MessageHandler(Filters.text & ~Filters.command, message)]
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
